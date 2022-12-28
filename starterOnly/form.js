@@ -16,6 +16,7 @@ function validate() {
 	validateFirstname();
 	validateLastname();
 	validateEmail();
+	validateBirthdate();
 	return false;
 }
 
@@ -46,6 +47,16 @@ function validateEmail() {
 		hideError(emailError, emailInput);
 	} else {
 		showError(emailError, emailInput, "Le champ Email ne doit pas être vide et doit être valide. (email@example.com)");
+	}
+}
+
+// validate birthdate
+function validateBirthdate() {
+	// verify is input length >= 2 and if it is not empty
+	if (birthdateInput.value !== null && birthdateInput.value !== "" && birthdateInput.value.match(/^\d{4}[\-]\d{2}[\-]\d{2}$/)) {
+		hideError(birthdateError, birthdateInput);
+	} else {
+		showError(birthdateError, birthdateInput, "Le champ Birthdate ne doit pas être vide et la date doit être valide.");
 	}
 }
 
