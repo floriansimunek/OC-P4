@@ -8,6 +8,9 @@ const quantityInput = document.querySelector("#quantity");
 const cityRadio = document.querySelectorAll(".cityRadio");
 const termOfUseInput = document.querySelector("#checkbox1");
 
+const modal1 = document.querySelector("#modal1");
+const modal2 = document.querySelector("#modal2");
+
 // errors block
 const firstnameError = document.querySelector("#firstError");
 const lastnameError = document.querySelector("#lastError");
@@ -19,6 +22,7 @@ const termOfUseError = document.querySelector("#termOfUseError");
 
 // validate form
 function validate(e) {
+	e.preventDefault();
 	validateFirstname();
 	validateLastname();
 	validateEmail();
@@ -27,8 +31,12 @@ function validate(e) {
 	validatecityRadio();
 	validateTermsOfUse();
 
-	if (!(validateFirstname() && validateLastname() && validateEmail() && validateBirthdate() && validateQuantity() && validatecityRadio() && validateTermsOfUse())) {
-		e.preventDefault();
+	if (validateFirstname() && validateLastname() && validateEmail() && validateBirthdate() && validateQuantity() && validatecityRadio() && validateTermsOfUse()) {
+		modal1.classList.add("hide");
+		modal1.classList.remove("show");
+
+		modal2.classList.add("show");
+		modal2.classList.remove("hide");
 	}
 }
 

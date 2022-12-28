@@ -6,7 +6,11 @@
 	margin: 0;
 }
 
-.errors.show {
+.hide {
+	display: none;
+}
+
+.show {
 	display: block;
 }
 
