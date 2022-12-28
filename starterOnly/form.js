@@ -17,6 +17,7 @@ function validate() {
 	validateLastname();
 	validateEmail();
 	validateBirthdate();
+	validateQuantity();
 	return false;
 }
 
@@ -52,11 +53,21 @@ function validateEmail() {
 
 // validate birthdate
 function validateBirthdate() {
-	// verify is input length >= 2 and if it is not empty
+	// verify if input is not empty & if it is valid
 	if (birthdateInput.value !== null && birthdateInput.value !== "" && birthdateInput.value.match(/^\d{4}[\-]\d{2}[\-]\d{2}$/)) {
 		hideError(birthdateError, birthdateInput);
 	} else {
 		showError(birthdateError, birthdateInput, "Le champ Birthdate ne doit pas être vide et la date doit être valide.");
+	}
+}
+
+// validate tournaments quantity
+function validateQuantity() {
+	// verify if input is not empty & if it is valid & between 0 - 99
+	if (quantityInput.value !== null && quantityInput.value !== "" && quantityInput.value.match(/^\d+$/) && quantityInput.value >= 0 && quantityInput.value <= 99) {
+		hideError(quantityError, quantityInput);
+	} else {
+		showError(quantityError, quantityInput, "Le champ Quantity ne doit pas être vide et être compris entre 0 et 99.");
 	}
 }
 
