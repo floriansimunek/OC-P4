@@ -5,6 +5,7 @@ const emailInput = document.querySelector("#email");
 const birthdateInput = document.querySelector("#birthdate");
 const quantityInput = document.querySelector("#quantity");
 const cityRadio = document.querySelectorAll(".cityRadio");
+const termOfUseInput = document.querySelector("#checkbox1");
 
 const firstnameError = document.querySelector("#firstError");
 const lastnameError = document.querySelector("#lastError");
@@ -12,6 +13,7 @@ const emailError = document.querySelector("#emailError");
 const birthdateError = document.querySelector("#birthdateError");
 const quantityError = document.querySelector("#quantityError");
 const cityRadioError = document.querySelector("#cityRadioError");
+const termOfUseError = document.querySelector("#termOfUseError");
 
 // validate form
 function validate() {
@@ -21,6 +23,7 @@ function validate() {
 	validateBirthdate();
 	validateQuantity();
 	validatecityRadio();
+	validateTermsOfUse();
 	return false;
 }
 
@@ -82,6 +85,15 @@ function validatecityRadio() {
 		cityRadio.forEach((radio) => hideError(cityRadioError, radio));
 	} else {
 		cityRadio.forEach((radio) => showError(cityRadioError, radio, "Vous devez choisir une destination"));
+	}
+}
+
+// validate terms of use
+function validateTermsOfUse() {
+	if (termOfUseInput.checked) {
+		hideError(termOfUseError, termOfUseInput);
+	} else {
+		showError(termOfUseError, termOfUseInput, "Vous devez accepter les conditions d'utilisations");
 	}
 }
 
