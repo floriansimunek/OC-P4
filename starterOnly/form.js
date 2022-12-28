@@ -4,12 +4,14 @@ const lastnameInput = document.querySelector("#last");
 const emailInput = document.querySelector("#email");
 const birthdateInput = document.querySelector("#birthdate");
 const quantityInput = document.querySelector("#quantity");
+const cityRadio = document.querySelectorAll(".cityRadio");
 
 const firstnameError = document.querySelector("#firstError");
 const lastnameError = document.querySelector("#lastError");
 const emailError = document.querySelector("#emailError");
 const birthdateError = document.querySelector("#birthdateError");
 const quantityError = document.querySelector("#quantityError");
+const cityRadioError = document.querySelector("#cityRadioError");
 
 // validate form
 function validate() {
@@ -18,6 +20,7 @@ function validate() {
 	validateEmail();
 	validateBirthdate();
 	validateQuantity();
+	validatecityRadio();
 	return false;
 }
 
@@ -68,6 +71,17 @@ function validateQuantity() {
 		hideError(quantityError, quantityInput);
 	} else {
 		showError(quantityError, quantityInput, "Le champ Quantity ne doit pas être vide et être compris entre 0 et 99.");
+	}
+}
+
+// validate city checkbox
+function validatecityRadio() {
+	// verify if at least one checkbox is checked
+	let isOnecityRadioChecked = Array.prototype.slice.call(cityRadio).some((radio) => radio.checked);
+	if (isOnecityRadioChecked) {
+		cityRadio.forEach((radio) => hideError(cityRadioError, radio));
+	} else {
+		cityRadio.forEach((radio) => showError(cityRadioError, radio, "Vous devez choisir une destination"));
 	}
 }
 

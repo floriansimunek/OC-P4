@@ -1,7 +1,7 @@
 .errors {
 	display: none;
-	color: #fb584a;
-	font-size: 14px;
+	color: #ff4e60;
+	font-size: 10px;
 	padding: 0;
 	margin: 0;
 }
@@ -11,7 +11,7 @@
 }
 
 input.red {
-	border: 2px solid #fb584a;
+	border: 2px solid #ff4e60;
 }
 
 input.green {
