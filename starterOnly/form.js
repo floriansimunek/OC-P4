@@ -7,15 +7,21 @@ const quantityInput = document.querySelector("#quantity");
 
 const firstnameError = document.querySelector("#firstError");
 const lastnameError = document.querySelector("#lastError");
+const emailError = document.querySelector("#emailError");
+const birthdateError = document.querySelector("#birthdateError");
+const quantityError = document.querySelector("#quantityError");
 
 // validate form
 function validate() {
 	validateFirstname();
 	validateLastname();
+	validateEmail();
+	return false;
 }
 
 // validate firstname
 function validateFirstname() {
+	// verify is input length >= 2 and if it is not empty
 	if (firstnameInput.value.length >= 2 && firstnameInput.value !== null && firstnameInput.value !== "") {
 		hideError(firstnameError, firstnameInput);
 	} else {
@@ -25,10 +31,21 @@ function validateFirstname() {
 
 // validate lastname
 function validateLastname() {
+	// verify is input length >= 2 and if it is not empty
 	if (lastnameInput.value.length >= 2 && lastnameInput.value !== null && lastnameInput.value !== "") {
 		hideError(lastnameError, lastnameInput);
 	} else {
 		showError(lastnameError, lastnameInput, "Le champ Nom a un minimum de 2 caractères / n'est pas vide.");
+	}
+}
+
+// validate email
+function validateEmail() {
+	// verify is input length >= 2 & if it is not empty & if email is valid
+	if (emailInput.value.length >= 2 && emailInput.value !== null && emailInput.value !== "" && emailInput.value.match(/^\S+@\S+\.\S+$/)) {
+		hideError(emailError, emailInput);
+	} else {
+		showError(emailError, emailInput, "Le champ Email ne doit pas être vide et doit être valide. (email@example.com)");
 	}
 }
 
