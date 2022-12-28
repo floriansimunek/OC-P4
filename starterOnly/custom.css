@@ -1,0 +1,19 @@
+.errors {
+	display: none;
+	color: #fb584a;
+	font-size: 14px;
+	padding: 0;
+	margin: 0;
+}
+
+.errors.show {
+	display: block;
+}
+
+input.red {
+	border: 2px solid #fb584a;
+}
+
+input.green {
+	border: 2px solid #16c60c;
+}
