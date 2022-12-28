@@ -1,4 +1,5 @@
 // DOM Elements
+// inputs
 const firstnameInput = document.querySelector("#first");
 const lastnameInput = document.querySelector("#last");
 const emailInput = document.querySelector("#email");
@@ -7,6 +8,7 @@ const quantityInput = document.querySelector("#quantity");
 const cityRadio = document.querySelectorAll(".cityRadio");
 const termOfUseInput = document.querySelector("#checkbox1");
 
+// errors block
 const firstnameError = document.querySelector("#firstError");
 const lastnameError = document.querySelector("#lastError");
 const emailError = document.querySelector("#emailError");
@@ -16,7 +18,7 @@ const cityRadioError = document.querySelector("#cityRadioError");
 const termOfUseError = document.querySelector("#termOfUseError");
 
 // validate form
-function validate() {
+function validate(e) {
 	validateFirstname();
 	validateLastname();
 	validateEmail();
@@ -24,7 +26,10 @@ function validate() {
 	validateQuantity();
 	validatecityRadio();
 	validateTermsOfUse();
-	return false;
+
+	if (!(validateFirstname() && validateLastname() && validateEmail() && validateBirthdate() && validateQuantity() && validatecityRadio() && validateTermsOfUse())) {
+		e.preventDefault();
+	}
 }
 
 // validate firstname
@@ -32,8 +37,10 @@ function validateFirstname() {
 	// verify is input length >= 2 and if it is not empty
 	if (firstnameInput.value.length >= 2 && firstnameInput.value !== null && firstnameInput.value !== "") {
 		hideError(firstnameError, firstnameInput);
+		return true;
 	} else {
 		showError(firstnameError, firstnameInput, "Le champ Prénom a un minimum de 2 caractères / n'est pas vide.");
+		return false;
 	}
 }
 
@@ -42,8 +49,10 @@ function validateLastname() {
 	// verify is input length >= 2 and if it is not empty
 	if (lastnameInput.value.length >= 2 && lastnameInput.value !== null && lastnameInput.value !== "") {
 		hideError(lastnameError, lastnameInput);
+		return true;
 	} else {
 		showError(lastnameError, lastnameInput, "Le champ Nom a un minimum de 2 caractères / n'est pas vide.");
+		return false;
 	}
 }
 
@@ -52,8 +61,10 @@ function validateEmail() {
 	// verify is input length >= 2 & if it is not empty & if email is valid
 	if (emailInput.value.length >= 2 && emailInput.value !== null && emailInput.value !== "" && emailInput.value.match(/^\S+@\S+\.\S+$/)) {
 		hideError(emailError, emailInput);
+		return true;
 	} else {
 		showError(emailError, emailInput, "Le champ Email ne doit pas être vide et doit être valide. (email@example.com)");
+		return false;
 	}
 }
 
@@ -62,8 +73,10 @@ function validateBirthdate() {
 	// verify if input is not empty & if it is valid
 	if (birthdateInput.value !== null && birthdateInput.value !== "" && birthdateInput.value.match(/^\d{4}[\-]\d{2}[\-]\d{2}$/)) {
 		hideError(birthdateError, birthdateInput);
+		return true;
 	} else {
 		showError(birthdateError, birthdateInput, "Le champ Birthdate ne doit pas être vide et la date doit être valide.");
+		return false;
 	}
 }
 
@@ -72,8 +85,10 @@ function validateQuantity() {
 	// verify if input is not empty & if it is valid & between 0 - 99
 	if (quantityInput.value !== null && quantityInput.value !== "" && quantityInput.value.match(/^\d+$/) && quantityInput.value >= 0 && quantityInput.value <= 99) {
 		hideError(quantityError, quantityInput);
+		return true;
 	} else {
 		showError(quantityError, quantityInput, "Le champ Quantity ne doit pas être vide et être compris entre 0 et 99.");
+		return false;
 	}
 }
 
@@ -83,8 +98,10 @@ function validatecityRadio() {
 	let isOnecityRadioChecked = Array.prototype.slice.call(cityRadio).some((radio) => radio.checked);
 	if (isOnecityRadioChecked) {
 		cityRadio.forEach((radio) => hideError(cityRadioError, radio));
+		return true;
 	} else {
 		cityRadio.forEach((radio) => showError(cityRadioError, radio, "Vous devez choisir une destination"));
+		return false;
 	}
 }
 
@@ -92,8 +109,10 @@ function validatecityRadio() {
 function validateTermsOfUse() {
 	if (termOfUseInput.checked) {
 		hideError(termOfUseError, termOfUseInput);
+		return true;
 	} else {
 		showError(termOfUseError, termOfUseInput, "Vous devez accepter les conditions d'utilisations");
+		return false;
 	}
 }
 
