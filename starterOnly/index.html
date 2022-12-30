@@ -49,33 +49,33 @@
 					<span class="close closeModal"></span>
 					<div class="modal-body show" id="modal1">
 						<form name="reserve" action="index.html" method="get" onsubmit="return validate(event);">
-							<div class="formData">
+							<div class="formData" data-error="Le champ Prénom a un minimum de 2 caractères / n'est pas vide." data-error-visible="false">
 								<label for="first">Prénom</label><br />
 								<input class="text-control" type="text" id="first" name="first" /><br />
 								<p class="errors" id="firstError"></p>
 							</div>
-							<div class="formData">
+							<div class="formData" data-error="Le champ Nom a un minimum de 2 caractères / n'est pas vide." data-error-visible="false">
 								<label for="last">Nom</label><br />
 								<input class="text-control" type="text" id="last" name="last" /><br />
 								<p class="errors" id="lastError"></p>
 							</div>
-							<div class="formData">
+							<div class="formData" data-error="Le champ Email ne doit pas être vide et doit être valide. (email@example.com)" data-error-visible="false">
 								<label for="email">E-mail</label><br />
 								<input class="text-control" type="email" id="email" name="email" /><br />
 								<p class="errors" id="emailError"></p>
 							</div>
-							<div class="formData">
+							<div class="formData" data-error="Le champ Birthdate ne doit pas être vide et la date doit être valide." data-error-visible="false">
 								<label for="birthdate">Date de naissance</label><br />
 								<input class="text-control" type="date" id="birthdate" name="birthdate" /><br />
 								<p class="errors" id="birthdateError"></p>
 							</div>
-							<div class="formData">
+							<div class="formData" data-error="Le champ Quantity ne doit pas être vide et être compris entre 0 et 99." data-error-visible="false">
 								<label for="quantity">À combien de tournois GameOn avez-vous déjà participé ?</label><br />
 								<input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99" />
 								<p class="errors" id="quantityError"></p>
 							</div>
 							<p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
-							<div class="formData">
+							<div class="formData" data-error="Vous devez choisir une destination" data-error-visible="false">
 								<input class="checkbox-input cityRadio" type="radio" id="location1" name="location" value="New York" />
 								<label class="checkbox-label" for="location1"><span class="checkbox-icon"></span>New York</label>
 								<input class="checkbox-input cityRadio" type="radio" id="location2" name="location" value="San Francisco" />
@@ -91,7 +91,7 @@
 								<p class="errors" id="cityRadioError"></p>
 							</div>
 
-							<div class="formData">
+							<div class="formData" data-error="Vous devez accepter les conditions d'utilisations" data-error-visible="false">
 								<input class="checkbox-input" type="checkbox" id="checkbox1" checked />
 								<label class="checkbox2-label" for="checkbox1" required>
 									<span class="checkbox-icon"></span>
