@@ -1,140 +1,170 @@
-// DOM Elements
-// inputs
-const firstnameInput = document.querySelector("#first");
-const lastnameInput = document.querySelector("#last");
-const emailInput = document.querySelector("#email");
-const birthdateInput = document.querySelector("#birthdate");
-const quantityInput = document.querySelector("#quantity");
-const cityRadio = document.querySelectorAll(".cityRadio");
-const termOfUseInput = document.querySelector("#checkbox1");
+// Object - DOM Elements
+let inputs = {
+	firstname: {
+		id: "#first",
+		type: "name",
+		length: {
+			min: 2,
+			max: 32,
+		},
+		validRegex: /^[a-zà-ú ,.'-]+$/i,
+		error: true,
+	},
+	lastname: {
+		id: "#last",
+		type: "name",
+		length: {
+			min: 2,
+			max: 32,
+		},
+		validRegex: /^[a-zà-ú ,.'-]+$/i,
+		error: true,
+	},
+	email: {
+		id: "#email",
+		type: "email",
+		length: {
+			min: 4,
+			max: 128,
+		},
+		validRegex: /^\S+@\S+\.\S+$/,
+		error: true,
+	},
+	birthdate: {
+		id: "#birthdate",
+		type: "date",
+		validRegex: /^[1-2]{1}\d{3}[\-]\d{2}[\-]\d{2}$/,
+		error: true,
+	},
+	quantity: {
+		id: "#quantity",
+		type: "number",
+		value: {
+			min: 0,
+			max: 99,
+		},
+		validRegex: /^\d+$/,
+		error: true,
+	},
+	city: {
+		class: ".cityRadio",
+		type: "radios",
+		error: true,
+	},
+	termOfUse: {
+		id: "#checkbox1",
+		type: "checkbox",
+		error: true,
+	},
+};
 
+/**
+ *
+ * @returns bool
+ */
+function validateInputs() {
+	let errors = [];
+
+	// Testing all object (inputs) elements
+	Object.keys(inputs).forEach((key) => {
+		let el = inputs[key];
+
+		// if element got an id
+		if (el.id) {
+			var elDOM = document.querySelector(inputs[key].id);
+
+			// check if input match regex
+			if (checkRegex(elDOM, el.validRegex)) {
+				// names and email inputs
+				if (el.type == "name" || el.type == "email") {
+					// check input length
+					if (elDOM.value.length >= el.length.min && elDOM.value.length <= el.length.max) {
+						elDOM.parentElement.dataset.errorVisible = "false";
+						el.error = false;
+					}
+				}
+
+				// number inputs
+				if (el.type == "number") {
+					// check input value
+					if (parseInt(elDOM.value) >= el.value.min && parseInt(elDOM.value) <= el.value.max) {
+						elDOM.parentElement.dataset.errorVisible = "false";
+						el.error = false;
+					}
+				}
+
+				// no error(s), no message
+				elDOM.parentElement.dataset.errorVisible = "false";
+				el.error = false;
+			} else {
+				// error(s), display message
+				elDOM.parentElement.dataset.errorVisible = "true";
+				el.error = true;
+			}
+
+			// checkbox inputs
+			if (el.type == "checkbox") {
+				// check if term of use is checked
+				if (elDOM.checked) {
+					// no error(s), no message
+					elDOM.parentElement.dataset.errorVisible = "false";
+					el.error = false;
+				} else {
+					// error(s), display message
+					elDOM.parentElement.dataset.errorVisible = "true";
+					el.error = true;
+				}
+			}
+		}
+
+		// if elements got a class
+		if (el.class) {
+			var elsDOM = document.querySelectorAll(inputs[key].class);
+
+			// radios inputs
+			if (el.type == "radios") {
+				let isOnecityRadioChecked = Array.prototype.slice.call(elsDOM).some((radio) => radio.checked);
+
+				// check if at least one radio button is selected
+				if (isOnecityRadioChecked) {
+					elsDOM.forEach((radio) => {
+						// no error(s), no message
+						radio.parentElement.dataset.errorVisible = "false";
+						el.error = false;
+					});
+				} else {
+					elsDOM.forEach((radio) => {
+						// error(s), display message
+						radio.parentElement.dataset.errorVisible = "true";
+						el.error = true;
+					});
+				}
+			}
+		}
+
+		// add errors bool in array
+		errors.push(!el.error);
+	});
+	// return true if all array values are "true"
+	return errors.every(Boolean);
+}
+
+// check if regex of the input match
+function checkRegex(elDOM, validRegex) {
+	return elDOM.value.match(validRegex);
+}
+
+// modals DOM elements
 const modal1 = document.querySelector("#modal1");
 const modal2 = document.querySelector("#modal2");
-
-// errors block
-const firstnameError = document.querySelector("#firstError");
-const lastnameError = document.querySelector("#lastError");
-const emailError = document.querySelector("#emailError");
-const birthdateError = document.querySelector("#birthdateError");
-const quantityError = document.querySelector("#quantityError");
-const cityRadioError = document.querySelector("#cityRadioError");
-const termOfUseError = document.querySelector("#termOfUseError");
 
 // validate form
 function validate(e) {
 	e.preventDefault();
-	validateFirstname();
-	validateLastname();
-	validateEmail();
-	validateBirthdate();
-	validateQuantity();
-	validatecityRadio();
-	validateTermsOfUse();
 
-	if (validateFirstname() && validateLastname() && validateEmail() && validateBirthdate() && validateQuantity() && validatecityRadio() && validateTermsOfUse()) {
-		modal1.classList.add("hide");
-		modal1.classList.remove("show");
-
-		modal2.classList.add("show");
-		modal2.classList.remove("hide");
+	// modify modal view
+	if (validateInputs()) {
+		modal1.classList.toggle("show");
+		modal2.classList.toggle("show");
 	}
-}
-
-// validate firstname
-function validateFirstname() {
-	// verify is input length >= 2 and if it is not empty
-	if (firstnameInput.value.length >= 2 && firstnameInput.value !== null && firstnameInput.value !== "") {
-		hideError(firstnameError, firstnameInput);
-		return true;
-	} else {
-		showError(firstnameError, firstnameInput, "Le champ Prénom a un minimum de 2 caractères / n'est pas vide.");
-		return false;
-	}
-}
-
-// validate lastname
-function validateLastname() {
-	// verify is input length >= 2 and if it is not empty
-	if (lastnameInput.value.length >= 2 && lastnameInput.value !== null && lastnameInput.value !== "") {
-		hideError(lastnameError, lastnameInput);
-		return true;
-	} else {
-		showError(lastnameError, lastnameInput, "Le champ Nom a un minimum de 2 caractères / n'est pas vide.");
-		return false;
-	}
-}
-
-// validate email
-function validateEmail() {
-	// verify is input length >= 2 & if it is not empty & if email is valid
-	if (emailInput.value.length >= 2 && emailInput.value !== null && emailInput.value !== "" && emailInput.value.match(/^\S+@\S+\.\S+$/)) {
-		hideError(emailError, emailInput);
-		return true;
-	} else {
-		showError(emailError, emailInput, "Le champ Email ne doit pas être vide et doit être valide. (email@example.com)");
-		return false;
-	}
-}
-
-// validate birthdate
-function validateBirthdate() {
-	// verify if input is not empty & if it is valid
-	if (birthdateInput.value !== null && birthdateInput.value !== "" && birthdateInput.value.match(/^\d{4}[\-]\d{2}[\-]\d{2}$/)) {
-		hideError(birthdateError, birthdateInput);
-		return true;
-	} else {
-		showError(birthdateError, birthdateInput, "Le champ Birthdate ne doit pas être vide et la date doit être valide.");
-		return false;
-	}
-}
-
-// validate tournaments quantity
-function validateQuantity() {
-	// verify if input is not empty & if it is valid & between 0 - 99
-	if (quantityInput.value !== null && quantityInput.value !== "" && quantityInput.value.match(/^\d+$/) && quantityInput.value >= 0 && quantityInput.value <= 99) {
-		hideError(quantityError, quantityInput);
-		return true;
-	} else {
-		showError(quantityError, quantityInput, "Le champ Quantity ne doit pas être vide et être compris entre 0 et 99.");
-		return false;
-	}
-}
-
-// validate city checkbox
-function validatecityRadio() {
-	// verify if at least one checkbox is checked
-	let isOnecityRadioChecked = Array.prototype.slice.call(cityRadio).some((radio) => radio.checked);
-	if (isOnecityRadioChecked) {
-		cityRadio.forEach((radio) => hideError(cityRadioError, radio));
-		return true;
-	} else {
-		cityRadio.forEach((radio) => showError(cityRadioError, radio, "Vous devez choisir une destination"));
-		return false;
-	}
-}
-
-// validate terms of use
-function validateTermsOfUse() {
-	if (termOfUseInput.checked) {
-		hideError(termOfUseError, termOfUseInput);
-		return true;
-	} else {
-		showError(termOfUseError, termOfUseInput, "Vous devez accepter les conditions d'utilisations");
-		return false;
-	}
-}
-
-// errors hide
-function hideError(error, input) {
-	error.classList.remove("show");
-	input.classList.remove("red");
-	input.classList.add("green");
-}
-
-// errors display
-function showError(error, input, message) {
-	error.classList.add("show");
-	error.innerText = message;
-	input.classList.add("red");
-	input.classList.remove("green");
 }
